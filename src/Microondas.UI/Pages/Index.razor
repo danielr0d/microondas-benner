@@ -1,0 +1,387 @@
+@page "/"
+@using Microondas.Domain.Entities
+@using Microondas.Domain.Factories
+@using Microondas.Infrastructure.Repositories
+@implements IAsyncDisposable
+
+<PageTitle>Microwave</PageTitle>
+
+<div class="container">
+    <div class="programs-section">
+        <h3>Programs</h3>
+        <a href="/programs" class="btn-manage">Manage Programs</a>
+        <div class="programs-list">
+            @foreach (var program in programs)
+            {
+                <button @onclick="@(() => SelectProgram(program))" 
+                        class="@($"btn-program {(selectedProgram?.Name == program.Name ? "selected" : "")} {(program.IsCustom ? "custom" : "")}")">
+                    @program.Name @if (program.IsCustom) { <em>*</em> }
+                </button>
+            }
+        </div>
+        @if (selectedProgram != null)
+        {
+            <div class="program-details">
+                <p><strong>Food:</strong> @selectedProgram.Food</p>
+                <p><strong>Time:</strong> @(selectedProgram.TimeInSeconds)s</p>
+                <p><strong>Power:</strong> @selectedProgram.Power</p>
+                <p><strong>Instructions:</strong> @selectedProgram.Instructions</p>
+            </div>
+        }
+    </div>
+
+    <div class="microwave-container">
+        <div class="display">
+            <div class="time-display">@machine.GetDisplay()</div>
+            <div class="heating-string">@machine.HeatingString</div>
+        </div>
+
+        <div class="control-panel">
+            <div class="numeric-buttons">
+                @for (int i = 1; i <= 9; i++)
+                {
+                    int num = i;
+                    <button @onclick="@(() => AppendNumber(num))" class="btn-number" disabled="@(selectedProgram != null)">@i</button>
+                }
+                <button @onclick="@(() => AppendNumber(0))" class="btn-number" disabled="@(selectedProgram != null)">0</button>
+            </div>
+
+            <div class="function-buttons">
+                <button @onclick="StartHeating" class="btn-start">START</button>
+                <button @onclick="Pause" class="btn-pause">PAUSE/CANCEL</button>
+            </div>
+
+            <div class="input-field">
+                <input type="text" @bind="inputValue" readonly placeholder="00:00" />
+                <input type="number" @bind="powerInput" min="1" max="10" placeholder="Power (1-10)" disabled="@(selectedProgram != null)" />
+            </div>
+
+            <button @onclick="QuickStart" class="btn-quick" disabled="@(selectedProgram != null)">QUICK START</button>
+        </div>
+    </div>
+</div>
+
+@code {
+    private MicroondasMachine machine = new();
+    private List<HeatingProgram> programs = new();
+    private HeatingProgram? selectedProgram;
+    private string inputValue = string.Empty;
+    private int powerInput = 10;
+    private PeriodicTimer? timer;
+    private JsonProgramRepository repository = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        programs = PredefinedProgramsFactory.GetDefaultPrograms();
+        var customPrograms = await repository.GetAllCustomProgramsAsync();
+        programs.AddRange(customPrograms);
+
+        timer = new PeriodicTimer(TimeSpan.FromSeconds(1));
+        _ = SimulateHeating();
+    }
+
+    private async Task SimulateHeating()
+    {
+        while (await timer!.WaitForNextTickAsync())
+        {
+            machine.SimulateSecond();
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private void SelectProgram(HeatingProgram program)
+    {
+        selectedProgram = selectedProgram?.Name == program.Name ? null : program;
+        inputValue = string.Empty;
+    }
+
+    private void AppendNumber(int number)
+    {
+        if (selectedProgram != null)
+            return;
+
+        inputValue += number.ToString();
+    }
+
+    private void StartHeating()
+    {
+        try
+        {
+            if (selectedProgram != null)
+            {
+                machine.StartProgram(selectedProgram);
+            }
+            else if (string.IsNullOrEmpty(inputValue))
+            {
+                machine.Start(null, powerInput);
+            }
+            else
+            {
+                int seconds = int.Parse(inputValue);
+                if (seconds >= 60 && seconds <= 99)
+                {
+                    int minutes = seconds / 60;
+                    int secs = seconds % 60;
+                    seconds = minutes * 60 + secs;
+                }
+                machine.Start(seconds, powerInput);
+                inputValue = string.Empty;
+            }
+        }
+        catch (Exception ex)
+        {
+            inputValue = $"ERROR: {ex.Message}";
+        }
+    }
+
+    private void Pause()
+    {
+        machine.Pause();
+        selectedProgram = null;
+        inputValue = string.Empty;
+    }
+
+    private void QuickStart()
+    {
+        if (selectedProgram != null)
+            return;
+
+        machine.Start();
+        inputValue = string.Empty;
+    }
+
+    ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        if (timer is not null)
+        {
+            timer.Dispose();
+        }
+        return ValueTask.CompletedTask;
+    }
+}
+
+<style>
+    .container {
+        display: flex;
+        gap: 20px;
+        max-width: 1000px;
+        margin: 20px auto;
+        padding: 20px;
+    }
+
+    .programs-section {
+        flex: 1;
+        padding: 20px;
+        border: 3px solid #333;
+        border-radius: 10px;
+        background: #f5f5f5;
+    }
+
+    .programs-section h3 {
+        margin-top: 0;
+    }
+
+    .btn-manage {
+        display: inline-block;
+        background: #2196F3;
+        color: white;
+        padding: 8px 15px;
+        border-radius: 5px;
+        text-decoration: none;
+        margin-bottom: 15px;
+        font-weight: bold;
+    }
+
+    .btn-manage:hover {
+        background: #0b7dda;
+    }
+
+    .programs-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 20px;
+    }
+
+    .btn-program {
+        padding: 10px;
+        background: #e0e0e0;
+        border: 2px solid #333;
+        cursor: pointer;
+        border-radius: 5px;
+        text-align: left;
+        transition: all 0.2s;
+    }
+
+    .btn-program:hover {
+        background: #d0d0d0;
+    }
+
+    .btn-program.selected {
+        background: #4CAF50;
+        color: white;
+        font-weight: bold;
+    }
+
+    .btn-program.custom {
+        font-style: italic;
+    }
+
+    .btn-program.custom em {
+        font-style: normal;
+        font-weight: bold;
+        color: #ff9800;
+    }
+
+    .program-details {
+        background: white;
+        padding: 15px;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+
+    .program-details p {
+        margin: 8px 0;
+    }
+
+    .microwave-container {
+        flex: 1;
+        padding: 20px;
+        border: 3px solid #333;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+        font-family: Arial, sans-serif;
+    }
+
+    .display {
+        background: #1a1a1a;
+        color: #00ff00;
+        padding: 20px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        text-align: center;
+        font-family: 'Courier New', monospace;
+    }
+
+    .time-display {
+        font-size: 48px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .heating-string {
+        font-size: 14px;
+        min-height: 20px;
+        word-break: break-all;
+    }
+
+    .control-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .numeric-buttons {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+
+    .btn-number {
+        padding: 15px;
+        font-size: 18px;
+        font-weight: bold;
+        border: 2px solid #333;
+        background: #f0f0f0;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: all 0.2s;
+    }
+
+    .btn-number:hover:not(:disabled) {
+        background: #d0d0d0;
+        transform: scale(1.05);
+    }
+
+    .btn-number:disabled {
+        background: #b0b0b0;
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+
+    .btn-number:active:not(:disabled) {
+        transform: scale(0.95);
+    }
+
+    .function-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .btn-start, .btn-pause, .btn-quick {
+        flex: 1;
+        padding: 12px;
+        font-size: 16px;
+        font-weight: bold;
+        border: 2px solid #333;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: all 0.2s;
+    }
+
+    .btn-start {
+        background: #4CAF50;
+        color: white;
+    }
+
+    .btn-start:hover {
+        background: #45a049;
+    }
+
+    .btn-pause {
+        background: #f44336;
+        color: white;
+    }
+
+    .btn-pause:hover {
+        background: #da190b;
+    }
+
+    .btn-quick {
+        background: #2196F3;
+        color: white;
+    }
+
+    .btn-quick:hover:not(:disabled) {
+        background: #0b7dda;
+    }
+
+    .btn-quick:disabled {
+        background: #80b0d0;
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+
+    .input-field {
+        display: flex;
+        gap: 10px;
+    }
+
+    .input-field input {
+        flex: 1;
+        padding: 10px;
+        font-size: 16px;
+        border: 2px solid #333;
+        border-radius: 5px;
+    }
+
+    .input-field input:disabled {
+        background: #e0e0e0;
+        cursor: not-allowed;
+    }
+
+    button:active:not(:disabled) {
+        transform: scale(0.95);
+    }
+</style>
+

@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "O8cSWl7aHY0=",
+  "dgSpecHash": "5cokzRfQqm8=",
   "success": true,
   "projectFilePath": "/home/danie/codes/jobs-tests/MicroondasBenner/src/Microondas.Infrastructure/Microondas.Infrastructure.csproj",
   "expectedPackageFiles": [
-    "/home/danie/.nuget/packages/microsoft.aspnetcore.app.ref/10.0.4/microsoft.aspnetcore.app.ref.10.0.4.nupkg.sha512"
+    "/home/danie/.nuget/packages/microsoft.aspnetcore.app.ref/9.0.14/microsoft.aspnetcore.app.ref.9.0.14.nupkg.sha512"
   ],
   "logs": []
 }
