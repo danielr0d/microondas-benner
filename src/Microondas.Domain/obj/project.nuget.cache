@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "gplJuWhyyv8=",
+  "success": true,
+  "projectFilePath": "/home/danie/codes/jobs-tests/MicroondasBenner/src/Microondas.Domain/Microondas.Domain.csproj",
+  "expectedPackageFiles": [
+    "/home/danie/.nuget/packages/microsoft.aspnetcore.app.ref/10.0.4/microsoft.aspnetcore.app.ref.10.0.4.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Microondas.Api/Microondas.Api.csproj" />
+    <Project Path="src/Microondas.Domain/Microondas.Domain.csproj" />
+    <Project Path="src/Microondas.Infrastructure/Microondas.Infrastructure.csproj" />
+    <Project Path="src/Microondas.UI/Microondas.UI.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Microondas.Domain.Tests/Microondas.Domain.Tests.csproj" />
+  </Folder>
+</Solution>
