@@ -1,0 +1,293 @@
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Visual Studio cache/options
+.vs/
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# Rider
+.idea/
+*.sln.iml
+*.sln.DotSettings
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Local History for Visual Studio
+.localhistory/
+
+# Visual Studio History (VSHistory) files
+.vshistory/
+
+# BeatPulse healthcheck temp database
+healthchecksdb
+
+# Backup & temp files
+*.bak
+*.tmp
+*~
+*.swp
+*.swo
+
+# NuGet Packages
+*.nupkg
+*.snupkg
+*.nuget.props
+*.nuget.targets
+.nuget/
+
+# NuGet v3's project.json files makes some worse, leave it off
+project.json
+project.lock.json
+
+# The packages folder can be ignored because of Package Restore
+**/packages/*
+!**/packages/build/
+
+# Cake build files
+tools/
+!tools/packages.config
+
+# dotCover coverage file
+coverage*.xml
+coverage*.json
+
+# Code coverage
+opencover/
+codecover/
+
+# MyGet build local output folder
+output/
+
+# Visual Studio profiler
+*.psess
+*.vsp
+*.vspx
+*.sap
+
+# ReSharper is a .NET coding add-in
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# VS Code dir
+.vscode/
+
+# Jetbrains rider folder
+.idea/
+
+# Mac crap
+.DS_Store
+
+# Rider diagnostic files
+.idea_modules/
+
+# User-specific files (MonoDevelop/Xamarin Studio)
+*.userprefs
+
+# Mono Auto Generated Files
+mono_crash.*
+
+# Publish folder
+Publish/
+
+# Entity Framework
+*.edmx.diagram
+
+# SQL Server files
+*.mdf
+*.ldf
+*.ndf
+
+# Local DB
+*.db
+*.sqlite
+
+# Test Results
+TestResults/
+*.trx
+
+# Application Insights
+ApplicationInsights.config
+.ApplicationInsightsrc
+
+# BizTalk related files
+*.btp.cs
+*.btm.cs
+*.odx.cs
+*.xsd.cs
+
+# OpenCover UI analysis results
+OpenCover/
+
+# Azure Service Fabric local cluster files
+sfprojects/
+
+# Azure Functions local emulator storage
+Functions/bin/
+Functions/obj/
+
+# Azure CDN local development files
+.azurecdndev/
+
+# Python Tools for Visual Studio (PTVS)
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Logging
+logs/
+*.log
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Database backups
+*.bak
+*.backup
+
+# Temporary files
+*.tmp
+*.temp
+tmp/
+temp/
+
+# IDE
+.vscode/
+.idea/
+.vs/
+
+# Build output
+artifacts/
+dist/
+build/
+
+# Local deployment
+local.settings.json
+appsettings.local.json
+
+# Docker
+.dockerignore
+Dockerfile
+docker-compose.local.yml
+
+# Node (if using npm/npm packages)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Angular / Angular CLI
+dist/
+.angular/
+
+# Blazor WebAssembly
+bin/
+obj/
+.vs/
+
+# Application logs
+Logs/
+*.log
+
+# Data
+data/
+*.db
+*.sqlite
+*.sqlite3
+
+# Certificates
+*.pfx
+*.pem
+*.key
+*.crt
+
+# Configuration
+appsettings.production.json
+
+# Environment variables
+.env.local
+.env.*.local
+
+# Rider specific
+.idea/
+*.sln.iml
+
+# Report files
+TestResults/
+
