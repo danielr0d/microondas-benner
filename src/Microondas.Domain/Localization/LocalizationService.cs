@@ -77,6 +77,21 @@ public class LocalizationService : ILocalizationService
             { "language.select", "Language" },
             { "language.english", "English" },
             { "language.portuguese_br", "Português (Brasil)" },
+            { "program.popcorn", "Popcorn" },
+            { "program.popcorn_food", "Popcorn" },
+            { "program.popcorn_instructions", "Listen for the popping sound to slow down, then stop the microwave." },
+            { "program.milk", "Milk" },
+            { "program.milk_food", "Milk" },
+            { "program.milk_instructions", "Be careful when heating liquids. Never leave unattended." },
+            { "program.beef", "Beef" },
+            { "program.beef_food", "Beef" },
+            { "program.beef_instructions", "Pause halfway through and stir the meat for even heating." },
+            { "program.chicken", "Chicken" },
+            { "program.chicken_food", "Chicken" },
+            { "program.chicken_instructions", "Pause halfway through and rotate the chicken for uniform cooking." },
+            { "program.beans", "Beans" },
+            { "program.beans_food", "Beans" },
+            { "program.beans_instructions", "Leave the container uncovered to allow steam to escape." },
         };
 
         _resources["pt-BR"] = new()

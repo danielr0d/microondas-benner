@@ -91,7 +91,8 @@ public class PredefinedProgramsFactory
             {
                 return new HeatingProgram
                 {
-                    Name = localizationService.GetString(keys.nameKey),
+                    Name = p.Name,
+                    DisplayName = localizationService.GetString(keys.nameKey),
                     Food = localizationService.GetString(keys.foodKey),
                     TimeInSeconds = p.TimeInSeconds,
                     Power = p.Power,

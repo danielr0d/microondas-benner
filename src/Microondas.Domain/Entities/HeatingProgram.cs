@@ -3,6 +3,7 @@ namespace Microondas.Domain.Entities;
 public class HeatingProgram
 {
     public string Name { get; set; } = string.Empty;
+    public string DisplayName { get; set; } = string.Empty;
     public string Food { get; set; } = string.Empty;
     public int TimeInSeconds { get; set; }
     public int Power { get; set; }
