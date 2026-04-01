@@ -1,33 +1,35 @@
 @page "/programs"
 @using Microondas.Domain.Entities
 @using Microondas.Domain.Factories
+@using Microondas.Domain.Localization
 @using Microondas.Infrastructure.Repositories
+@inject ILocalizationService LocalizationService
 
 <PageTitle>Manage Programs</PageTitle>
 
 <div class="programs-manager">
-    <h2>Heating Programs Manager</h2>
+    <h2>@LocalizationService.GetString("microwave.manage_programs")</h2>
 
     <div class="section">
-        <h3>Create New Custom Program</h3>
+        <h3>@LocalizationService.GetString("program.create_new")</h3>
         <div class="form-group">
-            <label>Program Name:</label>
-            <input type="text" @bind="newProgram.Name" placeholder="Enter program name" />
+            <label>@LocalizationService.GetString("program.name"):</label>
+            <input type="text" @bind="newProgram.Name" placeholder="@LocalizationService.GetString("program.name_placeholder")" />
         </div>
         <div class="form-group">
-            <label>Food:</label>
-            <input type="text" @bind="newProgram.Food" placeholder="Enter food type" />
+            <label>@LocalizationService.GetString("microwave.food"):</label>
+            <input type="text" @bind="newProgram.Food" placeholder="@LocalizationService.GetString("program.food_placeholder")" />
         </div>
         <div class="form-group">
-            <label>Time (seconds):</label>
+            <label>@LocalizationService.GetString("program.time_seconds"):</label>
             <input type="number" @bind="newProgram.TimeInSeconds" min="1" max="3600" />
         </div>
         <div class="form-group">
-            <label>Power (1-10):</label>
+            <label>@LocalizationService.GetString("microwave.power"):</label>
             <input type="number" @bind="newProgram.Power" min="1" max="10" />
         </div>
         <div class="form-group">
-            <label>Heating Character:</label>
+            <label>@LocalizationService.GetString("program.heating_char"):</label>
             <input type="text" @bind="characterInput" maxlength="1" placeholder="Enter a single character" />
         </div>
         <div class="form-group">
@@ -46,10 +48,10 @@
     </div>
 
     <div class="section">
-        <h3>Custom Programs</h3>
+        <h3>@LocalizationService.GetString("program.custom_programs")</h3>
         @if (customPrograms.Count == 0)
         {
-            <p>No custom programs yet.</p>
+            <p>@LocalizationService.GetString("program.no_custom")</p>
         }
         else
         {
@@ -58,12 +60,12 @@
                 {
                     <div class="program-card">
                         <h4>@program.Name</h4>
-                        <p><strong>Food:</strong> @program.Food</p>
-                        <p><strong>Time:</strong> @(program.TimeInSeconds)s</p>
-                        <p><strong>Power:</strong> @program.Power</p>
-                        <p><strong>Character:</strong> <code>@program.HeatingCharacter</code></p>
-                        <p><strong>Instructions:</strong> @program.Instructions</p>
-                        <button @onclick="@(() => DeleteProgram(program.Name))" class="btn-delete">Delete</button>
+                        <p><strong>@LocalizationService.GetString("microwave.food"):</strong> @program.Food</p>
+                        <p><strong>@LocalizationService.GetString("microwave.time"):</strong> @(program.TimeInSeconds)@LocalizationService.GetString("microwave.seconds")</p>
+                        <p><strong>@LocalizationService.GetString("microwave.power"):</strong> @program.Power</p>
+                        <p><strong>@LocalizationService.GetString("program.heating_char"):</strong> <code>@program.HeatingCharacter</code></p>
+                        <p><strong>@LocalizationService.GetString("microwave.instructions"):</strong> @program.Instructions</p>
+                        <button @onclick="@(() => DeleteProgram(program.Name))" class="btn-delete">@LocalizationService.GetString("program.delete")</button>
                     </div>
                 }
             </div>
@@ -71,17 +73,17 @@
     </div>
 
     <div class="section">
-        <h3>Predefined Programs</h3>
+        <h3>@LocalizationService.GetString("microwave.predefined")</h3>
         <div class="programs-grid">
             @foreach (var program in PredefinedProgramsFactory.GetDefaultPrograms())
             {
                 <div class="program-card predefined">
                     <h4>@program.Name</h4>
-                    <p><strong>Food:</strong> @program.Food</p>
-                    <p><strong>Time:</strong> @(program.TimeInSeconds)s</p>
-                    <p><strong>Power:</strong> @program.Power</p>
-                    <p><strong>Character:</strong> <code>@program.HeatingCharacter</code></p>
-                    <p><strong>Instructions:</strong> @program.Instructions</p>
+                    <p><strong>@LocalizationService.GetString("microwave.food"):</strong> @program.Food</p>
+                    <p><strong>@LocalizationService.GetString("microwave.time"):</strong> @(program.TimeInSeconds)@LocalizationService.GetString("microwave.seconds")</p>
+                    <p><strong>@LocalizationService.GetString("microwave.power"):</strong> @program.Power</p>
+                    <p><strong>@LocalizationService.GetString("program.heating_char"):</strong> <code>@program.HeatingCharacter</code></p>
+                    <p><strong>@LocalizationService.GetString("microwave.instructions"):</strong> @program.Instructions</p>
                 </div>
             }
         </div>

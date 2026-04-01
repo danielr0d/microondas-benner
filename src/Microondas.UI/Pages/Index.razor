@@ -1,15 +1,21 @@
 @page "/"
 @using Microondas.Domain.Entities
 @using Microondas.Domain.Factories
+@using Microondas.Domain.Localization
 @using Microondas.Infrastructure.Repositories
 @implements IAsyncDisposable
+@inject ILocalizationService LocalizationService
 
 <PageTitle>Microwave</PageTitle>
 
+<div class="language-controls">
+    <LanguageSelector />
+</div>
+
 <div class="container">
     <div class="programs-section">
-        <h3>Programs</h3>
-        <a href="/programs" class="btn-manage">Manage Programs</a>
+        <h3>@LocalizationService.GetString("microwave.programs")</h3>
+        <a href="/programs" class="btn-manage">@LocalizationService.GetString("microwave.manage_programs")</a>
         <div class="programs-list">
             @foreach (var program in programs)
             {
@@ -22,10 +28,10 @@
         @if (selectedProgram != null)
         {
             <div class="program-details">
-                <p><strong>Food:</strong> @selectedProgram.Food</p>
-                <p><strong>Time:</strong> @(selectedProgram.TimeInSeconds)s</p>
-                <p><strong>Power:</strong> @selectedProgram.Power</p>
-                <p><strong>Instructions:</strong> @selectedProgram.Instructions</p>
+                <p><strong>@LocalizationService.GetString("microwave.food"):</strong> @selectedProgram.Food</p>
+                <p><strong>@LocalizationService.GetString("microwave.time"):</strong> @(selectedProgram.TimeInSeconds)@LocalizationService.GetString("microwave.seconds")</p>
+                <p><strong>@LocalizationService.GetString("microwave.power"):</strong> @selectedProgram.Power</p>
+                <p><strong>@LocalizationService.GetString("microwave.instructions"):</strong> @selectedProgram.Instructions</p>
             </div>
         }
     </div>
@@ -47,16 +53,16 @@
             </div>
 
             <div class="function-buttons">
-                <button @onclick="StartHeating" class="btn-start">START</button>
-                <button @onclick="Pause" class="btn-pause">PAUSE/CANCEL</button>
+                <button @onclick="StartHeating" class="btn-start">@LocalizationService.GetString("microwave.start")</button>
+                <button @onclick="Pause" class="btn-pause">@LocalizationService.GetString("microwave.pause")</button>
             </div>
 
             <div class="input-field">
-                <input type="text" @bind="inputValue" readonly placeholder="00:00" />
-                <input type="number" @bind="powerInput" min="1" max="10" placeholder="Power (1-10)" disabled="@(selectedProgram != null)" />
+                <input type="text" @bind="inputValue" readonly placeholder="@LocalizationService.GetString("microwave.display_placeholder")" />
+                <input type="number" @bind="powerInput" min="1" max="10" placeholder="@LocalizationService.GetString("microwave.power_placeholder")" disabled="@(selectedProgram != null)" />
             </div>
 
-            <button @onclick="QuickStart" class="btn-quick" disabled="@(selectedProgram != null)">QUICK START</button>
+            <button @onclick="QuickStart" class="btn-quick" disabled="@(selectedProgram != null)">@LocalizationService.GetString("microwave.quick_start")</button>
         </div>
     </div>
 </div>
@@ -161,6 +167,13 @@
 }
 
 <style>
+    .language-controls {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
     .container {
         display: flex;
         gap: 20px;
