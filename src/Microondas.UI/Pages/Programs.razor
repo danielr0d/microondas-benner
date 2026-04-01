@@ -75,10 +75,10 @@
     <div class="section">
         <h3>@LocalizationService.GetString("microwave.predefined")</h3>
         <div class="programs-grid">
-            @foreach (var program in PredefinedProgramsFactory.GetDefaultPrograms())
+            @foreach (var program in PredefinedProgramsFactory.GetLocalizedPrograms(LocalizationService))
             {
                 <div class="program-card predefined">
-                    <h4>@program.Name</h4>
+                    <h4>@(string.IsNullOrEmpty(program.DisplayName) ? program.Name : program.DisplayName)</h4>
                     <p><strong>@LocalizationService.GetString("microwave.food"):</strong> @program.Food</p>
                     <p><strong>@LocalizationService.GetString("microwave.time"):</strong> @(program.TimeInSeconds)@LocalizationService.GetString("microwave.seconds")</p>
                     <p><strong>@LocalizationService.GetString("microwave.power"):</strong> @program.Power</p>

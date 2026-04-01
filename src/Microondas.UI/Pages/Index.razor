@@ -21,7 +21,7 @@
             {
                 <button @onclick="@(() => SelectProgram(program))" 
                         class="@($"btn-program {(selectedProgram?.Name == program.Name ? "selected" : "")} {(program.IsCustom ? "custom" : "")}")">
-                    @program.Name @if (program.IsCustom) { <em>*</em> }
+                    @(string.IsNullOrEmpty(program.DisplayName) ? program.Name : program.DisplayName) @if (program.IsCustom) { <em>*</em> }
                 </button>
             }
         </div>
