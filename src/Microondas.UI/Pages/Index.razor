@@ -78,12 +78,20 @@
 
     protected override async Task OnInitializedAsync()
     {
-        programs = PredefinedProgramsFactory.GetDefaultPrograms();
+        programs = PredefinedProgramsFactory.GetLocalizedPrograms(LocalizationService);
         var customPrograms = await repository.GetAllCustomProgramsAsync();
         programs.AddRange(customPrograms);
 
         timer = new PeriodicTimer(TimeSpan.FromSeconds(1));
         _ = SimulateHeating();
+    }
+
+    protected override void OnParametersSet()
+    {
+        programs = PredefinedProgramsFactory.GetLocalizedPrograms(LocalizationService);
+        var customPrograms = repository.GetAllCustomProgramsAsync().Result;
+        programs.AddRange(customPrograms);
+        StateHasChanged();
     }
 
     private async Task SimulateHeating()

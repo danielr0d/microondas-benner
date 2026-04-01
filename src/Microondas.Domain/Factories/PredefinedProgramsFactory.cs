@@ -1,4 +1,5 @@
 using Microondas.Domain.Entities;
+using Microondas.Domain.Localization;
 
 namespace Microondas.Domain.Factories;
 
@@ -69,6 +70,37 @@ public class PredefinedProgramsFactory
             HeatingCharacter = p.HeatingCharacter,
             Instructions = p.Instructions,
             IsCustom = p.IsCustom
+        }).ToList();
+    }
+
+    public static List<HeatingProgram> GetLocalizedPrograms(ILocalizationService localizationService)
+    {
+        var basePrograms = GetDefaultPrograms();
+        var programKeyMap = new Dictionary<string, (string nameKey, string foodKey, string instrKey)>
+        {
+            { "Popcorn", ("program.popcorn", "program.popcorn_food", "program.popcorn_instructions") },
+            { "Milk", ("program.milk", "program.milk_food", "program.milk_instructions") },
+            { "Beef", ("program.beef", "program.beef_food", "program.beef_instructions") },
+            { "Chicken", ("program.chicken", "program.chicken_food", "program.chicken_instructions") },
+            { "Beans", ("program.beans", "program.beans_food", "program.beans_instructions") }
+        };
+
+        return basePrograms.Select(p =>
+        {
+            if (programKeyMap.TryGetValue(p.Name, out var keys))
+            {
+                return new HeatingProgram
+                {
+                    Name = localizationService.GetString(keys.nameKey),
+                    Food = localizationService.GetString(keys.foodKey),
+                    TimeInSeconds = p.TimeInSeconds,
+                    Power = p.Power,
+                    HeatingCharacter = p.HeatingCharacter,
+                    Instructions = localizationService.GetString(keys.instrKey),
+                    IsCustom = p.IsCustom
+                };
+            }
+            return p;
         }).ToList();
     }
 }

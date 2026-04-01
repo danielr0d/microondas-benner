@@ -115,6 +115,21 @@ public class LocalizationService : ILocalizationService
             { "language.select", "Idioma" },
             { "language.english", "English" },
             { "language.portuguese_br", "Português (Brasil)" },
+            { "program.popcorn", "Pipoca" },
+            { "program.popcorn_food", "Pipoca" },
+            { "program.popcorn_instructions", "Ouça o barulho de estouros diminuir e então pare o microondas." },
+            { "program.milk", "Leite" },
+            { "program.milk_food", "Leite" },
+            { "program.milk_instructions", "Cuidado ao aquecer líquidos. Nunca deixe desacompanhado." },
+            { "program.beef", "Carne de Boi" },
+            { "program.beef_food", "Carne de Boi" },
+            { "program.beef_instructions", "Interrompa na metade e mexa a carne para aquecimento uniforme." },
+            { "program.chicken", "Frango" },
+            { "program.chicken_food", "Frango" },
+            { "program.chicken_instructions", "Interrompa na metade e rotacione o frango para cozimento uniforme." },
+            { "program.beans", "Feijão" },
+            { "program.beans_food", "Feijão" },
+            { "program.beans_instructions", "Deixe o recipiente descoberto para permitir escape de vapor." },
         };
     }
 }
