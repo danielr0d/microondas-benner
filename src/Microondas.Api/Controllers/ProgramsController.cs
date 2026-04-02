@@ -117,7 +117,7 @@ public class ProgramsController : ControllerBase
             };
 
             await _repository.AddProgramAsync(program);
-            return CreatedAtAction(nameof(GetProgram), new { name = program.Name }, dto);
+            return StatusCode(201, new { message = "Program created successfully", program = dto });
         }
         catch (InvalidOperationException ex)
         {
